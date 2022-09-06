@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Добавление студента</title>
+</head>
+<body>
+<a href="/">Меню</a>
+<form th:action = "${'/student/add'}" method="post">
+    <input type="text" name="Familia" placeholder="Введите фамилию"><br>
+    <input type="text" name="Name" placeholder="Введите имя"><br>
+    <input type="text" name="Otch" placeholder="Введите отчество"><br>
+    <input type="text" name="Grupa" placeholder="Введите группу"><br>
+    <input type="date" name="Birthday" placeholder="Введите дату рождения"><br>
+    <button type="submit"> Добавить студента</button>
+</form>
+</body>
+</html>

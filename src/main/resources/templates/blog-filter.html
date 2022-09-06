@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<a href="/">Меню</a>
+<h2>Фильтрация постов</h2>
+<form method="post" th:action="${'/blog/filter/result'}">
+    <input type="text" name="title">
+    <button type="submit">Найти</button>
+    <div th:each="el : ${result}">
+        <h3 th:text="${el.title}"></h3>
+        <p th:text="${el.anons}"></p>
+    </div>
+</form>
+</body>
+</html>
