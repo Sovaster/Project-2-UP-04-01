@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface PrepodRepository extends CrudRepository<Prepod,Long> {
     List<Prepod> findByfamilia(String familia);
-//    List<Prepod> findByTitleContains(String title);
+    List<Prepod> findByfamiliaContains(String familia);
 }

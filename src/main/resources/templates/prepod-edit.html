@@ -1,0 +1,24 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Редактирование преподавателя</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+
+<div th:insert="blocks/Header"></div>
+
+<div align="center" th:each="el : ${prepod}">
+    <h1>Редактирование преподавателя</h1>
+    <form method="post">
+        <input style="width: 250px; height: 40px; margin: 2px; display: list-item" type="text" th:value="${el.familia}" name="familia" placeholder="Введите фамилию">
+        <input style="width: 250px; height: 40px; margin: 2px; display: list-item" type="text" th:value="${el.name}" name="name" placeholder="Введите имя">
+        <input style="width: 250px; height: 40px; margin: 2px; display: list-item" type="text" th:value="${el.otch}" name="otch" placeholder="Введите отчество">
+        <textarea style="width: 300px; height: 100px; margin: 2px; display: list-item" name="predmeti" placeholder="Введите предметы" th:text="${el.predmeti}"></textarea>
+        <textarea style="width: 300px; height: 100px; margin: 2px; display: list-item" name="grafic" placeholder="Введите дни работы" th:text="${el.grafic}"></textarea>
+        <button type="submit">Сохранить</button>
+    </form>
+</div>
+
+</body>
+</html>

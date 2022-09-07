@@ -1,18 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Добавление студента</title>
 </head>
 <body>
-<a href="/">Меню</a>
-<form th:action = "${'/student/add'}" method="post">
-    <input type="text" name="Familia" placeholder="Введите фамилию"><br>
-    <input type="text" name="Name" placeholder="Введите имя"><br>
-    <input type="text" name="Otch" placeholder="Введите отчество"><br>
-    <input type="text" name="Grupa" placeholder="Введите группу"><br>
-    <input type="date" name="Birthday" placeholder="Введите дату рождения"><br>
-    <button type="submit"> Добавить студента</button>
-</form>
+
+<div th:insert="blocks/Header"></div>
+
+<div align="center">
+    <h1>Добавление студента</h1>
+    <form th:action = "${'/student/add'}" method="post">
+        <input style="width: 250px; height: 40px; margin: 2px" type="text" name="Familia" placeholder="Введите фамилию"><br>
+        <input style="width: 250px; height: 40px; margin: 2px" type="text" name="Name" placeholder="Введите имя"><br>
+        <input style="width: 250px; height: 40px; margin: 2px" type="text" name="Otch" placeholder="Введите отчество"><br>
+        <input style="width: 250px; height: 40px; margin: 2px" type="text" name="Grupa" placeholder="Введите группу"><br>
+        <input style="width: 250px; height: 40px; margin: 2px" type="date" name="Birthday" placeholder="Введите дату рождения"><br>
+        <button type="submit"> Добавить студента</button>
+    </form>
+</div>
+
 </body>
 </html>

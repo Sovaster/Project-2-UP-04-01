@@ -1,16 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Добавление новой статьи</title>
+    <title>Добавление нового поста</title>
 </head>
 <body>
-<a href="/">Меню</a>
-<form th:action = "${'/blog/add'}" method="post">
-    <input type="text" name="title" placeholder="Введите назначение статьи"><br>
-    <input type="text" name="anons" placeholder="Введите анонс статьи"><br>
-    <textarea name="full_text" placeholder="Введите текст статьи"></textarea><br>
-    <button type="submit"> Добавить статью</button>
-</form>
+
+<div th:insert="blocks/Header"></div>
+
+<div align="center">
+    <h1>Добавление поста</h1>
+    <form th:action = "${'/blog/add'}" method="post">
+        <input style="width: 250px; height: 40px; margin: 2px" type="text" name="title" placeholder="Введите назначение поста"><br>
+        <input style="width: 250px; height: 40px; margin: 2px" type="text" name="anons" placeholder="Введите анонс поста"><br>
+        <textarea style="width: 300px; height: 100px; margin: 2px" name="full_text" placeholder="Введите текст поста"></textarea><br>
+        <button type="submit">Добавить статью</button>
+    </form>
+</div>
+
 </body>
 </html>
