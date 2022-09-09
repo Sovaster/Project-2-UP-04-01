@@ -7,10 +7,12 @@ import com.example.Project2.repo.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import com.example.Project2.Models.Post;
 import com.example.Project2.repo.PostRepository;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -57,50 +59,58 @@ public class BlockController
 
 
     @GetMapping("/blog/add")
-    public String blogAdd(Model model)
+    public String blogAdd(Post post, Model model)
     {
         return "blog-add";
     }
     @GetMapping("/student/add")
-    public String studentAdd(Model model)
+    public String studentAdd(Student student,Model model)
     {
         return "student-add";
     }
     @GetMapping("/prepod/add")
-    public String prepodAdd(Model model)
+    public String prepodAdd(Prepod prepod,Model model)
     {
         return "prepod-add";
     }
 
 
+    //    @PostMapping("/blog/add")
+//    public String blogPostAdd(@RequestParam(value="title") String title,
+//                              @RequestParam(value ="anons") String anons,
+//                              @RequestParam(value = "full_text") String full_text,Model model)
+//    {
+//        Post post = new Post(title,anons,full_text);
+//        postRepository.save(post);
+//        return "redirect:/blog";
+//    }
     @PostMapping("/blog/add")
-    public String blogPostAdd(@RequestParam(value="title") String title,
-                              @RequestParam(value ="anons") String anons,
-                              @RequestParam(value = "full_text") String full_text,Model model)
+    public String blogPostAdd(@ModelAttribute("post")@Valid Post post, BindingResult bindingResult)
     {
-        Post post = new Post(title,anons,full_text);
+        if(bindingResult.hasErrors())
+        {
+            return "blog-add";
+        }
         postRepository.save(post);
         return "redirect:/blog";
     }
     @PostMapping("/student/add")
-    public String studentAdd(@RequestParam(value="Familia") String Familia,
-                              @RequestParam(value ="Name") String Name,
-                              @RequestParam(value = "Otch") String Otch,
-                              @RequestParam(value = "Grupa") String Grupa,
-                              @RequestParam(value = "Birthday") String Birthday, Model model)
+    public String studentAdd(@ModelAttribute("student")@Valid Student student, BindingResult bindingResult)
     {
-        Student student = new Student(Familia,Name,Otch,Grupa,Birthday);
+        if(bindingResult.hasErrors())
+        {
+            return "student-add";
+        }
         studentRepository.save(student);
         return "redirect:/students";
     }
     @PostMapping("/prepod/add")
-    public String prepodAdd(@RequestParam(value="Familia") String Familia,
-                             @RequestParam(value ="Name") String Name,
-                             @RequestParam(value = "Otch") String Otch,
-                             @RequestParam(value = "Predmeti") String Predmeti,
-                             @RequestParam(value = "Grafic") String Grafic, Model model)
+    public String prepodAdd(@ModelAttribute("prepod")@Valid Prepod prepod, BindingResult bindingResult)
     {
-        Prepod prepod = new Prepod(Familia,Name,Otch,Predmeti,Grafic);
+        if(bindingResult.hasErrors())
+        {
+            return "prepod-add";
+        }
         prepodRepository.save(prepod);
         return "redirect:/prepods";
     }
@@ -162,30 +172,48 @@ public class BlockController
         }
         return "blog-details";
     }
+//    @GetMapping("/blog/{id}/edit")
+//    public String blogEdit(@PathVariable("id")long id,
+//                           Model model)
+//    {
+//        if(!postRepository.existsById(id)){
+//            return "redirect:/blog";
+//        }
+//        Optional<Post> post = postRepository.findById(id);
+//        ArrayList<Post> res = new ArrayList<>();
+//        post.ifPresent(res::add);
+//        model.addAttribute("post",res);
+//        return "blog-edit";
+//    }
     @GetMapping("/blog/{id}/edit")
-    public String blogEdit(@PathVariable("id")long id,
-                           Model model)
+    public String blogEdit(@PathVariable("id")long id, Model model)
     {
-        if(!postRepository.existsById(id)){
-            return "redirect:/blog";
-        }
-        Optional<Post> post = postRepository.findById(id);
-        ArrayList<Post> res = new ArrayList<>();
-        post.ifPresent(res::add);
+        Post res = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Неверный id:" + id));
         model.addAttribute("post",res);
         return "blog-edit";
     }
+//    @PostMapping("/blog/{id}/edit")
+//    public String blogPostUpdate(@PathVariable("id")long id,
+//                                 @RequestParam String title,
+//                                 @RequestParam String anons,
+//                                 @RequestParam String full_text,
+//                                 Model model)
+//    {
+//        Post post = postRepository.findById(id).orElseThrow();
+//        post.setTitle(title);
+//        post.setAnons(anons);
+//        post.setFull_text(full_text);
+//        postRepository.save(post);
+//        return "redirect:/blog";
+//    }
     @PostMapping("/blog/{id}/edit")
-    public String blogPostUpdate(@PathVariable("id")long id,
-                                 @RequestParam String title,
-                                 @RequestParam String anons,
-                                 @RequestParam String full_text,
-                                 Model model)
+    public String blogPostUpdate(@PathVariable("id")long id, @ModelAttribute("post")@Valid Post post, BindingResult bindingResult)
     {
-        Post post = postRepository.findById(id).orElseThrow();
-        post.setTitle(title);
-        post.setAnons(anons);
-        post.setFull_text(full_text);
+        post.setId(id);
+        if(bindingResult.hasErrors())
+        {
+            return "blog-edit";
+        }
         postRepository.save(post);
         return "redirect:/blog";
     }
@@ -213,30 +241,18 @@ public class BlockController
     @GetMapping("/prepod/{id}/edit")
     public String prepodEdit(@PathVariable("id")long id, Model model)
     {
-        if(!prepodRepository.existsById(id)){
-            return "redirect:/prepods";
-        }
-        Optional<Prepod> prepod = prepodRepository.findById(id);
-        ArrayList<Prepod> res = new ArrayList<>();
-        prepod.ifPresent(res::add);
+        Prepod res = prepodRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Неверный id:" + id));
         model.addAttribute("prepod",res);
         return "prepod-edit";
     }
     @PostMapping("/prepod/{id}/edit")
-    public String PrepodUpdate(@PathVariable("id")long id,
-                                 @RequestParam String familia,
-                                 @RequestParam String name,
-                                 @RequestParam String otch,
-                                 @RequestParam String predmeti,
-                                 @RequestParam String grafic,
-                                 Model model)
+    public String PrepodUpdate(@PathVariable("id")long id, @ModelAttribute("prepod")@Valid Prepod prepod, BindingResult bindingResult)
     {
-        Prepod prepod = prepodRepository.findById(id).orElseThrow();
-        prepod.setFamilia(familia);
-        prepod.setName(name);
-        prepod.setOtch(otch);
-        prepod.setPredmeti(predmeti);
-        prepod.setGrafic(grafic);
+        prepod.setId(id);
+        if(bindingResult.hasErrors())
+        {
+            return "prepod-edit";
+        }
         prepodRepository.save(prepod);
         return "redirect:/prepods";
     }
@@ -264,30 +280,18 @@ public class BlockController
     @GetMapping("/student/{id}/edit")
     public String studentEdit(@PathVariable("id")long id, Model model)
     {
-        if(!studentRepository.existsById(id)){
-            return "redirect:/students";
-        }
-        Optional<Student> student = studentRepository.findById(id);
-        ArrayList<Student> res = new ArrayList<>();
-        student.ifPresent(res::add);
+        Student res = studentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Неверный id:" + id));
         model.addAttribute("student",res);
         return "student-edit";
     }
     @PostMapping("/student/{id}/edit")
-    public String StudentUpdate(@PathVariable("id")long id,
-                               @RequestParam String familia,
-                               @RequestParam String name,
-                               @RequestParam String otch,
-                               @RequestParam String grupa,
-                               @RequestParam String birthday,
-                               Model model)
+    public String StudentUpdate(@PathVariable("id")long id, @ModelAttribute("prepod")@Valid Student student, BindingResult bindingResult)
     {
-        Student student = studentRepository.findById(id).orElseThrow();
-        student.setFamilia(familia);
-        student.setName(name);
-        student.setOtch(otch);
-        student.setGrupa(grupa);
-        student.setBirthday(birthday);
+        student.setId(id);
+        if(bindingResult.hasErrors())
+        {
+            return "student-edit";
+        }
         studentRepository.save(student);
         return "redirect:/students";
     }

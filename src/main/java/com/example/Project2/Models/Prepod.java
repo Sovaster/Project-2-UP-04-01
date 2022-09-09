@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Prepod
@@ -12,15 +14,24 @@ public class Prepod
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private  String familia, Name, Otch, Predmeti, Grafic;
+    @NotEmpty(message = "Поле не может быть пустым")
+    @Size(min = 1, max = 50, message = "От 1 до 50 символов")
+    private  String familia, name;
+
+    @Size(min = 0, max = 50, message = "До 50 символов")
+    private  String otch;
+
+    @NotEmpty(message = "Поле не может быть пустым")
+    @Size(min = 1, max = 250, message = "От 1 до 250 символов")
+    private  String predmeti, grafic;
 
     public Prepod(String Familia, String Name, String Otch, String Predmeti, String Grafic)
     {
         this.familia = Familia;
-        this.Name = Name;
-        this.Otch = Otch;
-        this.Predmeti = Predmeti;
-        this.Grafic = Grafic;
+        this.name = Name;
+        this.otch = Otch;
+        this.predmeti = Predmeti;
+        this.grafic = Grafic;
     }
 
     public Prepod() {
@@ -44,35 +55,35 @@ public class Prepod
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getOtch() {
-        return Otch;
+        return otch;
     }
 
     public void setOtch(String otch) {
-        Otch = otch;
+        this.otch = otch;
     }
 
     public String getPredmeti() {
-        return Predmeti;
+        return predmeti;
     }
 
     public void setPredmeti(String predmeti) {
-        Predmeti = predmeti;
+        this.predmeti = predmeti;
     }
 
     public String getGrafic() {
-        return Grafic;
+        return grafic;
     }
 
     public void setGrafic(String grafic) {
-        Grafic = grafic;
+        this.grafic = grafic;
     }
 }
 

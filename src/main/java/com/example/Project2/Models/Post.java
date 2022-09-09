@@ -4,6 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Post
@@ -12,7 +14,13 @@ public class Post
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private  String title, anons, full_text;
+    @NotEmpty(message = "Поле не может быть пустым")
+    @Size(min = 1, max = 50, message = "От 1 до 50 символов")
+    private  String title, anons;
+
+    @NotEmpty(message = "Поле не может быть пустым")
+    @Size(min = 1, max = 250, message = "От 1 до 250 символов")
+    private  String full_text;
 
     public Post(String title, String anons, String full_text)
     {

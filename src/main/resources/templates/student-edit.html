@@ -10,12 +10,23 @@
 
 <div align="center" th:each="el : ${student}">
     <h1>Редактирование студента</h1>
-    <form method="post">
-        <input style="width: 250px; height: 40px; margin: 2px; display: list-item" type="text" th:value="${el.familia}" name="familia" placeholder="Введите фамилию">
-        <input style="width: 250px; height: 40px; margin: 2px; display: list-item" type="text" th:value="${el.name}" name="name" placeholder="Введите имя">
-        <input style="width: 250px; height: 40px; margin: 2px; display: list-item" type="text" th:value="${el.otch}" name="otch" placeholder="Введите отчество">
-        <input style="width: 250px; height: 40px; margin: 2px; display: list-item" type="text" th:value="${el.grupa}" name="grupa" placeholder="Введите группу">
-        <input style="width: 250px; height: 40px; margin: 2px; display: list-item" type="date" th:value="${el.birthday}" name="birthday" placeholder="Введите дату рождения">
+    <form method="post" th:object="${student}">
+
+        <input th:field="*{familia}" style="width: 250px; height: 40px; margin: 2px; display: list-item" type="text" th:value="${student.getFamilia()}" name="familia" placeholder="Введите фамилию">
+        <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('familia')}" th:errors="*{familia}"></div><br>
+
+        <input th:field="*{name}" style="width: 250px; height: 40px; margin: 2px; display: list-item" type="text" th:value="${student.getName()}" name="name" placeholder="Введите имя">
+        <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('name')}" th:errors="*{name}"></div><br>
+
+        <input th:field="*{otch}" style="width: 250px; height: 40px; margin: 2px; display: list-item" type="text" th:value="${student.getOtch()}" name="otch" placeholder="Введите отчество">
+        <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('otch')}" th:errors="*{otch}"></div><br>
+
+        <input th:field="*{grupa}" style="width: 250px; height: 40px; margin: 2px; display: list-item" type="text" th:value="${student.getGrupa()}" name="grupa" placeholder="Введите группу">
+        <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('grupa')}" th:errors="*{grupa}"></div><br>
+
+        <input th:field="*{birthday}" style="width: 250px; height: 40px; margin: 2px; display: list-item" type="date" th:value="${student.getBirthday()}" name="birthday" placeholder="Введите дату рождения">
+        <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('birthday')}" th:errors="*{birthday}"></div><br>
+
         <button type="submit">Сохранить</button>
     </form>
 </div>
