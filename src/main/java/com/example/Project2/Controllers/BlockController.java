@@ -1,7 +1,6 @@
 package com.example.Project2.Controllers;
 
-import com.example.Project2.Models.Prepod;
-import com.example.Project2.Models.Student;
+import com.example.Project2.Models.*;
 import com.example.Project2.repo.PrepodRepository;
 import com.example.Project2.repo.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import com.example.Project2.Models.Post;
 import com.example.Project2.repo.PostRepository;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,7 +32,6 @@ public class BlockController
     {
         return "Home";
     }
-
 
     @GetMapping("/blog")
     public String GetBlog(Model model)
@@ -285,7 +283,7 @@ public class BlockController
         return "student-edit";
     }
     @PostMapping("/student/{id}/edit")
-    public String StudentUpdate(@PathVariable("id")long id, @ModelAttribute("prepod")@Valid Student student, BindingResult bindingResult)
+    public String StudentUpdate(@PathVariable("id")long id, @ModelAttribute("student")@Valid Student student, BindingResult bindingResult)
     {
         student.setId(id);
         if(bindingResult.hasErrors())
