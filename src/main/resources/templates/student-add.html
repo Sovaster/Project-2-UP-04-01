@@ -27,6 +27,12 @@
         <input th:field="*{birthday}" style="width: 250px; height: 40px; margin: 2px" type="date" name="Birthday" placeholder="Введите дату рождения"><br>
         <div style="width: 250px; height: 40px; margin: 2px" th:if="*{#fields.hasErrors('birthday')}" th:errors="*{birthday}"></div><br>
 
+        <select name="universitys">
+            <div th:each="el : ${university}">
+                <option th:value="${el.id}" th:text="${el.nazvanie}"></option>
+            </div>
+        </select><br>
+
         <button type="submit"> Добавить студента</button>
     </form>
 </div>

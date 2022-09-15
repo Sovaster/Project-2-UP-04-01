@@ -3,6 +3,7 @@ package com.example.Project2.Controllers;
 import com.example.Project2.Models.*;
 import com.example.Project2.repo.PrepodRepository;
 import com.example.Project2.repo.StudentRepository;
+import com.example.Project2.repo.UniversityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +28,9 @@ public class BlockController
     @Autowired
     private StudentRepository studentRepository;
 
+    @Autowired
+    public UniversityRepository universityRepository;
+
     @GetMapping("/")
     public String Home(Model model)
     {
@@ -45,6 +49,8 @@ public class BlockController
     {
         Iterable<Student> students = studentRepository.findAll();
         model.addAttribute("students",students);
+        Iterable<University> universities = universityRepository.findAll();
+        model.addAttribute("university",universities);
         return "student-main";
     }
     @GetMapping("/prepods")
@@ -64,6 +70,8 @@ public class BlockController
     @GetMapping("/student/add")
     public String studentAdd(Student student,Model model)
     {
+        Iterable<University> universities = universityRepository.findAll();
+        model.addAttribute("university",universities);
         return "student-add";
     }
     @GetMapping("/prepod/add")
@@ -87,18 +95,24 @@ public class BlockController
     {
         if(bindingResult.hasErrors())
         {
+
             return "blog-add";
         }
         postRepository.save(post);
         return "redirect:/blog";
     }
     @PostMapping("/student/add")
-    public String studentAdd(@ModelAttribute("student")@Valid Student student, BindingResult bindingResult)
+    public String studentAdd(@ModelAttribute("student")@Valid Student student, @RequestParam Long universitys, BindingResult bindingResult,
+                             Model model)
     {
         if(bindingResult.hasErrors())
         {
+            Iterable<University> universities = universityRepository.findAll();
+            model.addAttribute("university",universities);
             return "student-add";
         }
+        University university = universityRepository.findById(universitys).orElseThrow();
+        student.setUniversitys(university);
         studentRepository.save(student);
         return "redirect:/students";
     }

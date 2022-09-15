@@ -20,6 +20,7 @@
             <h4 th:text="${el.getOtch()}" style="display: inline-block"></h4>
             <h5 th:text="${'Группа: '+el.getGrupa()}" style="margin-left: 10px"></h5>
             <h5 th:text="${'Дата рождения: '+el.getBirthday()}" style="margin-left: 10px"></h5>
+            <h5 th:text="${'Университет: '+el.getUniversitys().getNazvanie()}" style="margin-left: 10px"></h5>
             <h5><a th:href="'/student/' + ${el.id}"> Подробнее </a></h5>
         </div>
     </table>

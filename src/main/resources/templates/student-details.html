@@ -15,6 +15,7 @@
     <h3 th:text="${el.otch}" style="display: inline-block"></h3>
     <h4 th:text="${'Группа: '+el.grupa}" style="margin-left: 10px" ></h4>
     <h4 th:text="${'День рождения: '+el.birthday}" style="margin-left: 10px"></h4>
+    <h5 th:text="${'Университет: '+el.getUniversitys().getNazvanie()}" style="margin-left: 10px"></h5>
     <h5><a th:href="'/student/' + ${el.id} + '/edit'">Редактировать</a></h5>
   <form th:action="'/student/' + ${el.id} + '/remove'" method="post">
     <button type="submit">Удалить</button>

@@ -1,11 +1,9 @@
 package com.example.Project2.Models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 public class Student
@@ -29,13 +27,42 @@ public class Student
     @Size(min = 10, max = 10, message = "Должно быть 10 символов")
     private  String birthday;
 
-    public Student(String Familia, String Name, String Otch, String Grupa, String Birthday)
-    {
-        this.familia = Familia;
-        this.name = Name;
-        this.otch = Otch;
-        this.grupa = Grupa;
-        this.birthday = Birthday;
+    @ManyToMany (cascade = CascadeType.DETACH)
+    @JoinTable (name="student_gruppa",
+            joinColumns=@JoinColumn (name="student_id"),
+            inverseJoinColumns=@JoinColumn(name="gruppa_id"))
+    private List<Gruppa> gruppas;
+
+    public University getUniversitys() {
+        return universitys;
+    }
+
+    public void setUniversitys(University universitys) {
+        this.universitys = universitys;
+    }
+
+
+
+    @ManyToOne(optional = true, cascade = CascadeType.DETACH)
+    private University universitys;
+
+
+    public List<Gruppa> getGruppas() {
+        return gruppas;
+    }
+
+    public void setGruppas(List<Gruppa> gruppas) {
+        this.gruppas = gruppas;
+    }
+
+    public Student(String familia, String name, String otch, String grupa, String birthday, List<Gruppa> gruppas, University universitys) {
+        this.familia = familia;
+        this.name = name;
+        this.otch = otch;
+        this.grupa = grupa;
+        this.birthday = birthday;
+        this.gruppas = gruppas;
+        this.universitys = universitys;
     }
 
     public Student() {
